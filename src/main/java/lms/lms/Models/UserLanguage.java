@@ -21,8 +21,11 @@ public class UserLanguage {
     @JoinColumn(name = "user_id")
     private User user;
 
+
+    // Constructors
     public UserLanguage() {
     }
+
 
     public UserLanguage(Long userlanguesId, Language language, User user) {
         this.userlanguesId = userlanguesId;
@@ -30,6 +33,8 @@ public class UserLanguage {
         this.user = user;
     }
 
+
+    //    Getters and Setters
     public Long getUserlanguesId() {
         return userlanguesId;
     }
