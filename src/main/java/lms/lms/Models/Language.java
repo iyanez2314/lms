@@ -15,25 +15,7 @@ public class Language {
     @Column(nullable = false, length = 55)
     private String language_name;
 
-
-    @OneToMany(mappedBy = "language")
-    private List<UserLanguage> userLanguages;
-
-
-    public List<UserLanguage> getUserLanguages() {
-        return userLanguages;
-    }
-
-    public void setUserLanguages(List<UserLanguage> userLanguages) {
-        this.userLanguages = userLanguages;
-    }
-
     public Language() {
-    }
-
-    public Language(long language_id, String language_name) {
-        this.language_id = language_id;
-        this.language_name = language_name;
     }
 
     public long getLanguage_id() {

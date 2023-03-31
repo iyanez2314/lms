@@ -3,11 +3,26 @@ package lms.lms.Models;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "userlanguages")
 public class UserLanguage {
-    // TODO: ADD the relationship for the User.user_id and the languages.id
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long userlanguesId;
+
+    @ManyToOne
+    @JoinColumn(name = "language_id")
+    private Language language;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public UserLanguage() {
+    }
 
     public UserLanguage(Long userlanguesId, Language language, User user) {
         this.userlanguesId = userlanguesId;
@@ -38,17 +53,5 @@ public class UserLanguage {
     public void setUser(User user) {
         this.user = user;
     }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userlanguesId;
-
-    @ManyToOne
-    @JoinColumn(name = "language_id")
-    private Language language;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 
 }
