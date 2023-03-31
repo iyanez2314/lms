@@ -2,6 +2,8 @@ package lms.lms.Models;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "languages")
 public class Language {
@@ -12,6 +14,19 @@ public class Language {
 
     @Column(nullable = false, length = 55)
     private String language_name;
+
+
+    @OneToMany(mappedBy = "language")
+    private List<UserLanguage> userLanguages;
+
+
+    public List<UserLanguage> getUserLanguages() {
+        return userLanguages;
+    }
+
+    public void setUserLanguages(List<UserLanguage> userLanguages) {
+        this.userLanguages = userLanguages;
+    }
 
     public Language() {
     }
