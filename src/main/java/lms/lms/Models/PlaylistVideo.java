@@ -29,6 +29,11 @@ public class PlaylistVideo {
         this.video = video;
     }
 
+    public PlaylistVideo(Playlist playlist, Video video) {
+        this.playlist = playlist;
+        this.video = video;
+    }
+
     public long getId() {
         return id;
     }
