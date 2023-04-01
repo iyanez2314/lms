@@ -5,7 +5,11 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users",
+    uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"email", "username"})
+    }
+)
 public class User {
 
     @Id
@@ -30,6 +34,13 @@ public class User {
     private List<UserLanguage> userLanguages;
 
     public User() {
+    }
+
+    public User(User copy) {
+        id = copy.id;
+        email = copy.email;
+        username = copy.username;
+        password = copy.password;
     }
 
 
