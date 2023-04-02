@@ -37,21 +37,22 @@ public class SecurityConfiguration {
                 /* Login configuration */
                 .formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/ads") // user's home page, it can be any URL
+                .defaultSuccessUrl("/profile") // user's home page, it can be any URL
                 .permitAll() // Anyone can go to the login page
                 /* Logout configuration */
                 .and()
                 .logout()
-                .logoutSuccessUrl("/") // append a query string value
+                .logoutSuccessUrl("/login") // append a query string value
                 /* Pages that can be viewed without having to log in */
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/", "/ads", "/ads/{id}", "/sign-up") // anyone can see home, the ads pages, and sign up
+                .requestMatchers("/", "/register", "/logout", "/login") // anyone can see home, the ads pages, and sign up
                 .permitAll()
                 /* Pages that require authentication */
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers(
+                        "/profile",
                         "/ads/create", // only authenticated users can create ads
                         "/ads/{id}/edit" // only authenticated users can edit ads
                 )
