@@ -2,12 +2,14 @@ package lms.lms.Services;
 
 
 import lms.lms.Controllers.UserRepository;
-import lms.lms.Controllers.UserWithRoles;
+import lms.lms.Models.UserWithRoles;
 import lms.lms.Models.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserDetailsLoader implements UserDetailsService {
     private final UserRepository users;
 

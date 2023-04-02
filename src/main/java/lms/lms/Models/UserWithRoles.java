@@ -1,4 +1,4 @@
-package lms.lms.Controllers;
+package lms.lms.Models;
 
 import lms.lms.Models.User;
 import org.springframework.security.core.GrantedAuthority;
