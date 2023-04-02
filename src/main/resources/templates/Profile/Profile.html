@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-    <nav th:replace="Partials/Navbar :: navbar"></nav>
+<nav th:replace="partials/navbar :: navbar(isAuthenticated=${#authentication.principal != 'anonymousUser'})"></nav>
     <h1>Profile</h1>
     <div sec:authorize="isAuthenticated()">
         UserId: <span th:text="${#authentication.principal.id}"/>

@@ -1,10 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Profile Settings</title>
 </head>
 <body>
-$END$
+    <form th:action="@{/settings}" method="post" th:object="${user}">
+        <label for="email">Email</label>
+        <input id="email" name="email" th:field="*{email}">
+        <label for="password">New Password</label>
+        <input id="password" name="password">
+        <input type="submit" value="update">
+    </form>
 </body>
 </html>
