@@ -12,13 +12,28 @@
     User username: <span th:text="${user.username}"/>
     User Email: <span th:text="${user.email}"/>
 </div>
-<div class="playlist-container">
-    <h1>
-        Playlists
-    </h1>
-    <div class="playlists">
+<section class="playlist-wrapper">
+   <div  class="playlist-container">
+        <div class="playlist-header">
+            <h1>Create a playlist</h1>
+        </div>
+       <div class="playlist-form-container">
+           <form th:method="post" th:action="@{/playlist/create}">
+               <label for="playlistname">Playlist name</label>
+               <input id="playlistname" type="text" name="playlistname" required/>
+               <input type="submit" value="Create New Playlist!">
+           </form>
+       </div>
+   </div>
+</section>
 
+<section class="user-playlist-wrapper">
+    <div class="user-playlist-container">
+        <div class="user-playlist-container-header">
+            <!--               Add a number next to this to show how many playlist the user has-->
+            <h1>All playlist</h1>
+        </div>
     </div>
-</div>
+</section>
 </body>
 </html>

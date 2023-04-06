@@ -53,6 +53,7 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers(
+                        "/playlist/create",
                         "/profile",
                         "/settings"// only authenticated users can edit ads
                 )
