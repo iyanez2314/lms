@@ -24,6 +24,8 @@ public class UserDetailsLoader implements UserDetailsService {
             throw new UsernameNotFoundException("No user found for " + username);
         }
 
+        System.out.println("User fetched from repository: " + user.toString());
+
         return new UserWithRoles(user);
     }
 }

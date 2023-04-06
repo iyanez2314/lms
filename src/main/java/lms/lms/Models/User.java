@@ -33,6 +33,16 @@ public class User {
     @OneToMany(cascade =  CascadeType.PERSIST, mappedBy = "user")
     private List<UserLanguage> userLanguages;
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
+
     public User() {
     }
 

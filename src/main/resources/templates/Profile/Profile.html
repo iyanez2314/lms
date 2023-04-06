@@ -6,11 +6,11 @@
 </head>
 <body>
 <nav th:replace="partials/navbar :: navbar(isAuthenticated=${#authentication.principal != 'anonymousUser'})"></nav>
-    <h1>Profile</h1>
-    <div sec:authorize="isAuthenticated()">
-        UserId: <span th:text="${#authentication.principal.id}"/>
-        User username: <span th:text="${#authentication.principal.username}"/>
-        User Email: <span th:text="${#authentication.principal.email}"/>
-    </div>
+<h1>Profile</h1>
+<div sec:authorize="isAuthenticated()">
+    UserId: <span th:text="${user.id}"/>
+    User username: <span th:text="${user.username}"/>
+    User Email: <span th:text="${user.email}"/>
+</div>
 </body>
 </html>

@@ -9,12 +9,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class ProfileController {
+
+    private final UserRepository userDao;
+
+    public ProfileController(UserRepository userDao) {
+        this.userDao = userDao;
+    }
+
     @GetMapping("/profile")
     public String HomeController(Model model){
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("user", loggedInUser);
+        Long userId = loggedInUser.getId();
+        User user = userDao.findById(userId).get();
+        model.addAttribute("user", user);
         return "Profile/Profile";
     }
-
-
 }

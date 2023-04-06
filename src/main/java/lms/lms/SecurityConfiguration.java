@@ -34,6 +34,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+//                .csrf().disable()
                 /* Login configuration */
                 .formLogin()
                 .loginPage("/login")
@@ -53,9 +54,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests()
                 .requestMatchers(
                         "/profile",
-                        "/settings",
-                        "/ads/create", // only authenticated users can create ads
-                        "/ads/{id}/edit" // only authenticated users can edit ads
+                        "/settings"// only authenticated users can edit ads
                 )
                 .authenticated()
         ;

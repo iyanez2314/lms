@@ -5,7 +5,7 @@
     <title>Profile Settings</title>
 </head>
 <body>
-    <form th:action="@{/settings}" method="post" th:object="${user}">
+    <form th:action="@{/settings}" th:method="post" th:object="${user}">
         <label for="email">Email</label>
         <input id="email" name="email" th:field="*{email}">
         <label for="password">New Password</label>

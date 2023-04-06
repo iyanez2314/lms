@@ -8,8 +8,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 public class UserWithRoles extends User implements UserDetails {
+
+
     public UserWithRoles(User user) {
         super(user);  // Call the copy constructor defined in User
+        System.out.println("User with roles created: " + this.toString());
     }
 
 
@@ -18,6 +21,7 @@ public class UserWithRoles extends User implements UserDetails {
        String roles = ""; // Since we're not using the authorization part of the component
        return AuthorityUtils.commaSeparatedStringToAuthorityList(roles);
    }
+
 
     @Override
     public boolean isAccountNonExpired() {

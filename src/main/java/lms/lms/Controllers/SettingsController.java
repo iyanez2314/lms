@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
@@ -31,15 +32,28 @@ public class SettingsController {
 
 
     @PostMapping("/settings")
-    public String updateUserInformation(@ModelAttribute("user") UserWithRoles updatedUserInfo){
-        UserWithRoles loggedInUser = (UserWithRoles) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        loggedInUser.setEmail(updatedUserInfo.getEmail());
-
-        if(!updatedUserInfo.getPassword().isEmpty()){
-            loggedInUser.setPassword(passwordEncoder.encode(updatedUserInfo.getPassword()));
+    public String updateUserInformation(@ModelAttribute User updatedUserInfo) {
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long userId = loggedInUser.getId();
+        User user = userDao.findById(userId).get();
+        System.out.println(user.toString());
+        // Update the email and username fields
+        if (updatedUserInfo.getEmail() != null && !updatedUserInfo.getEmail().isEmpty()) {
+            user.setEmail(updatedUserInfo.getEmail());
         }
-        userDao.save(loggedInUser);
-        return "Profile/Profile";
+        if (updatedUserInfo.getUsername() != null && !updatedUserInfo.getUsername().isEmpty()) {
+            user.setUsername(updatedUserInfo.getUsername());
+        }
+        // Update the password if not empty
+        if (!updatedUserInfo.getPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(updatedUserInfo.getPassword()));
+            System.out.println("Password has been changed");
+        }
+        userDao.save(user);
+        return "redirect:/profile";
     }
+
+
+
 }
 
