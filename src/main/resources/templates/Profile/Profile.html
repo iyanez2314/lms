@@ -12,6 +12,8 @@
     User username: <span th:text="${user.username}"/>
     User Email: <span th:text="${user.email}"/>
 </div>
+
+<!--Video Form Section -->
 <section class="playlist-wrapper">
    <div  class="playlist-container">
         <div class="playlist-header">
@@ -27,13 +29,72 @@
    </div>
 </section>
 
+
+<!--Playlist Count Section -->
 <section class="user-playlist-wrapper">
     <div class="user-playlist-container">
         <div class="user-playlist-container-header">
-            <!--               Add a number next to this to show how many playlist the user has-->
-            <h1>All playlist</h1>
+            <h1>All playlist's <span th:text="${plalistcount}">0</span></h1>
         </div>
     </div>
 </section>
+
+<!--Mimicked Videos-->
+<section class="videos-wrapper">
+<!--    Modal to add video to a specified playlist -->
+    <div id="playlist-modal" style="display: none;">
+        <div class="modal-content">
+            <h2>Select Playlist</h2>
+            <form id="playlist-form" th:action="@{/add-video-to-playlist}" th:method="post">
+                <div th:each="playlist : ${playlists}">
+                    <button type="submit" th:text="${playlist.playListName}" class="playlist-buttons" th:attr="data-playlist-id=${playlist.playlist_id}"></button>
+                    <span></span>
+                </div>
+                <input type="hidden" id="videoId" name="videoId">
+                <input type="hidden" id="playlistId" name="playlistId">
+            </form>
+            <button onclick="closeModal()">Close</button>
+        </div>
+    </div>
+
+
+    <div class="video-container">
+        <div th:each="video : ${videos}">
+            <p th:text="${video.video_title}"></p>
+                <button type="submit" class="add-to-playlist-btn" th:attr="data-video-id=${video.video_id}">Add to playlist</button>
+        </div>
+    </div>
+</section>
+<script>
+
+    let videoId;
+
+    document.querySelectorAll('.add-to-playlist-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            videoId = this.getAttribute('data-video-id');
+            const modal = document.getElementById('playlist-modal');
+            modal.style.display = 'block';
+        });
+    });
+
+    document.querySelectorAll('.playlist-buttons').forEach(button => {
+        button.addEventListener('click', function () {
+            const playlistId = this.getAttribute('data-playlist-id');
+            const videoIdInput = document.getElementById('videoId');
+            const playlistIdInput = document.getElementById('playlistId');
+
+            videoIdInput.value = videoId;
+            playlistIdInput.value = playlistId;
+
+            document.getElementById('playlist-form').submit();
+        });
+    });
+
+
+    function closeModal(){
+        const modal = document.getElementById('playlist-modal');
+        modal.style.display = "none";
+    }
+</script>
 </body>
 </html>

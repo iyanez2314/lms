@@ -19,6 +19,12 @@ public class Video {
     public Video() {
     }
 
+
+    public Video(String video_title, String video_url) {
+        this.video_title = video_title;
+        this.video_url = video_url;
+    }
+
     public Video(long video_id, String video_title, String video_url) {
         this.video_id = video_id;
         this.video_title = video_title;
