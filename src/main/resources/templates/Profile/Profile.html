@@ -36,6 +36,13 @@
         <div class="user-playlist-container-header">
             <h1>All playlist's <span th:text="${plalistcount}">0</span></h1>
         </div>
+        <div th:each="playlist : ${playlists}">
+            <h1 th:text="${playlist.playListName}"></h1>
+            <span th:text="${playlist.countVideosInPlaylist()}"></span>
+            <form th:action="@{/playlistview/} + ${playlist.playlist_id}" th:method="GET">
+                <button type="submit">View Videos</button>
+            </form>
+        </div>
     </div>
 </section>
 
@@ -66,9 +73,7 @@
     </div>
 </section>
 <script>
-
     let videoId;
-
     document.querySelectorAll('.add-to-playlist-btn').forEach(button => {
         button.addEventListener('click', function () {
             videoId = this.getAttribute('data-video-id');
@@ -76,7 +81,6 @@
             modal.style.display = 'block';
         });
     });
-
     document.querySelectorAll('.playlist-buttons').forEach(button => {
         button.addEventListener('click', function () {
             const playlistId = this.getAttribute('data-playlist-id');
@@ -89,8 +93,6 @@
             document.getElementById('playlist-form').submit();
         });
     });
-
-
     function closeModal(){
         const modal = document.getElementById('playlist-modal');
         modal.style.display = "none";
