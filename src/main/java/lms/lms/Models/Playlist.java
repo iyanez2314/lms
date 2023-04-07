@@ -32,7 +32,6 @@ public class Playlist {
         this.user = user;
     }
 
-
     // Constructors
     public Playlist() {
     }
@@ -40,6 +39,7 @@ public class Playlist {
     public Playlist(String playListName) {
         this.playListName = playListName;
     }
+
 
     public Playlist(String playListName, User user) {
         this.playListName = playListName;
@@ -53,6 +53,14 @@ public class Playlist {
     }
 
     // Getters and Setters
+    public List<PlaylistVideo> getPlaylistVideos() {
+        return playlistVideos;
+    }
+
+    public int countVideosInPlaylist(){
+        return this.playlistVideos.size();
+    }
+
     public long getPlaylist_id() {
         return playlist_id;
     }

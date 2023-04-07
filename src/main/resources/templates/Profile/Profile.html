@@ -48,7 +48,7 @@
             <form id="playlist-form" th:action="@{/add-video-to-playlist}" th:method="post">
                 <div th:each="playlist : ${playlists}">
                     <button type="submit" th:text="${playlist.playListName}" class="playlist-buttons" th:attr="data-playlist-id=${playlist.playlist_id}"></button>
-                    <span></span>
+                    <span th:text="${playlist.countVideosInPlaylist()}"></span>
                 </div>
                 <input type="hidden" id="videoId" name="videoId">
                 <input type="hidden" id="playlistId" name="playlistId">

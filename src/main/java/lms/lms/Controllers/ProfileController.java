@@ -21,10 +21,13 @@ public class ProfileController {
 
     private final VideoRepository videoDao;
 
-    public ProfileController(UserRepository userDao, PlaylistRepository playlistDao, VideoRepository videoDao) {
+    private final PlaylistVideoRepository playlistVideoDao;
+
+    public ProfileController(UserRepository userDao, PlaylistRepository playlistDao, VideoRepository videoDao, PlaylistVideoRepository playlistVideoDao) {
         this.userDao = userDao;
         this.playlistDao = playlistDao;
         this.videoDao = videoDao;
+        this.playlistVideoDao = playlistVideoDao;
     }
 
     @GetMapping("/profile")
@@ -32,7 +35,7 @@ public class ProfileController {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Long userId = loggedInUser.getId();
         User user = userDao.findById(userId).get();
-        List<Video> videos =
+        List<Video> videos = videoDao.findAll();
         List<Playlist> usersPlayList = user.getPlaylists();
         int usersPlaylistCount = countUsersPlaylist(user);
         model.addAttribute("playlists", usersPlayList);
@@ -52,5 +55,10 @@ public class ProfileController {
             playlistCount++;
         }
         return playlistCount;
+    }
+
+
+    public static void main(String[] args) {
+
     }
 }

@@ -27,21 +27,13 @@ public class PlaylistVideoController {
     }
 
     @PostMapping("/add-video-to-playlist")
-    public String addVideoToPlaylist(@RequestParam("videoId") Long videoId, @RequestParam("playlistId") Long playlistId, RedirectAttributes redirectAttributes) {
-
-        System.out.println("here");
-        Playlist playlist = playlistDao.findById(playlistId).get();
-        System.out.println(videoId);
+    public String addVideoToPlaylist(@RequestParam("videoId") Long videoId, @RequestParam("playlistId") Long playlistId) {
         // Query the DB for the playlists and the videos
-//        Playlist playlist = playlistDao.findById(playlistId).get();
-//        Video video = videoDao.findById(videoId).get();
-//
-//        System.out.println(video.getVideo_id());
-//        System.out.println(playlist.getPlaylist_id());
+        Playlist playlist = playlistDao.findById(playlistId).get();
+        Video video = videoDao.findById(videoId).get();
         // Save the association to the join table
-//        PlaylistVideo newPlaylistVideo = new PlaylistVideo(playlist, video);
-//        playlistVideoDao.save(newPlaylistVideo);
-//        redirectAttributes.addFlashAttribute("message", "Video has been added to the playlist");
+        PlaylistVideo newPlaylistVideo = new PlaylistVideo(playlist, video);
+        playlistVideoDao.save(newPlaylistVideo);
         return "redirect:/profile"; // Redirect to a page after processing the form data
     }
 }
