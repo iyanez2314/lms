@@ -37,7 +37,7 @@ public class ProfileController {
         User user = userDao.findById(userId).get();
         List<Video> videos = videoDao.findAll();
         List<Playlist> usersPlayList = user.getPlaylists();
-        int usersPlaylistCount = countUsersPlaylist(user);
+        int usersPlaylistCount = user.countPlaylist();
         model.addAttribute("playlists", usersPlayList);
         model.addAttribute("videos", videos);
         model.addAttribute("plalistcount", usersPlaylistCount);

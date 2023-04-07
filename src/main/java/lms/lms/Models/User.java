@@ -54,6 +54,11 @@ public class User {
     }
 
 
+
+    public int countPlaylist(){
+        return this.playlists.size();
+    }
+
     public List<Playlist> getPlaylists() {
         return playlists;
     }
