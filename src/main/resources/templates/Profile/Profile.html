@@ -2,76 +2,88 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8" >
-    <title>Title</title>
+    <title>Profile Page</title>
+<!--    <link rel="stylesheet" th:href="@{/css/profile.css}" />-->
 </head>
 <body>
 <nav th:replace="partials/navbar :: navbar(isAuthenticated=${#authentication.principal != 'anonymousUser'})"></nav>
-<h1>Profile</h1>
-<div sec:authorize="isAuthenticated()">
-    UserId: <span th:text="${user.id}"/>
-    User username: <span th:text="${user.username}"/>
-    User Email: <span th:text="${user.email}"/>
-</div>
-
-<!--Video Form Section -->
-<section class="playlist-wrapper">
-   <div  class="playlist-container">
-        <div class="playlist-header">
-            <h1>Create a playlist</h1>
+<!--Main container-->
+<div class="container">
+    <!--Left -->
+    <div class="left-container">
+        <h1>Profile</h1>
+        <div sec:authorize="isAuthenticated()">
+            UserId: <span th:text="${user.id}"/>
+            User username: <span th:text="${user.username}"/>
+            User Email: <span th:text="${user.email}"/>
         </div>
-       <div class="playlist-form-container">
-           <form th:method="post" th:action="@{/playlist/create}">
-               <label for="playlistname">Playlist name</label>
-               <input id="playlistname" type="text" name="playlistname" required/>
-               <input type="submit" value="Create New Playlist!">
-           </form>
-       </div>
-   </div>
-</section>
-
-
-<!--Playlist Count Section -->
-<section class="user-playlist-wrapper">
-    <div class="user-playlist-container">
-        <div class="user-playlist-container-header">
-            <h1>All playlist's <span th:text="${plalistcount}">0</span></h1>
-        </div>
-        <div th:each="playlist : ${playlists}">
-            <h1 th:text="${playlist.playListName}"></h1>
-            <span th:text="${playlist.countVideosInPlaylist()}"></span>
-            <form th:action="@{/playlistview/} + ${playlist.playlist_id}" th:method="GET">
-                <button type="submit">View Videos</button>
-            </form>
-        </div>
-    </div>
-</section>
-
-<!--Mimicked Videos-->
-<section class="videos-wrapper">
-<!--    Modal to add video to a specified playlist -->
-    <div id="playlist-modal" style="display: none;">
-        <div class="modal-content">
-            <h2>Select Playlist</h2>
-            <form id="playlist-form" th:action="@{/add-video-to-playlist}" th:method="post">
-                <div th:each="playlist : ${playlists}">
-                    <button type="submit" th:text="${playlist.playListName}" class="playlist-buttons" th:attr="data-playlist-id=${playlist.playlist_id}"></button>
-                    <span th:text="${playlist.countVideosInPlaylist()}"></span>
+        <section class="user-playlist-wrapper">
+            <div class="user-playlist-container">
+                <div class="user-playlist-container-header">
+                    <h1>All playlist's <span th:text="${plalistcount}">0</span></h1>
                 </div>
-                <input type="hidden" id="videoId" name="videoId">
-                <input type="hidden" id="playlistId" name="playlistId">
-            </form>
-            <button onclick="closeModal()">Close</button>
-        </div>
+                <div th:each="playlist : ${playlists}">
+                    <h1 th:text="${playlist.playListName}"></h1>
+                    <span th:text="${playlist.countVideosInPlaylist()}"></span>
+                    <form th:action="@{/playlistview/} + ${playlist.playlist_id}" th:method="GET">
+                        <button type="submit">View Videos</button>
+                    </form>
+                </div>
+            </div>
+        </section>
     </div>
 
+    <!--Playlist Count Section -->
 
-    <div class="video-container">
-        <div th:each="video : ${videos}">
-            <p th:text="${video.video_title}"></p>
-                <button type="submit" class="add-to-playlist-btn" th:attr="data-video-id=${video.video_id}">Add to playlist</button>
+
+    <section class="playlist-wrapper">
+        <div  class="playlist-container">
+            <div class="playlist-header">
+                <h1>Create a playlist</h1>
+            </div>
+            <div class="playlist-form-container">
+                <form th:method="post" th:action="@{/playlist/create}">
+                    <label for="playlistname">Playlist name</label>
+                    <input id="playlistname" type="text" name="playlistname" required/>
+                    <input type="submit" value="Create New Playlist!">
+                </form>
+            </div>
         </div>
+    </section>
+
+<!--    Right container-->
+    <div class="right-container">
+        <!--Mimicked Videos-->
+        <section class="videos-wrapper">
+            <!--    Modal to add video to a specified playlist -->
+            <div id="playlist-modal" style="display: none;">
+                <div class="modal-content">
+                    <h2>Select Playlist</h2>
+                    <form id="playlist-form" th:action="@{/add-video-to-playlist}" th:method="post">
+                        <div th:each="playlist : ${playlists}">
+                            <button type="submit" th:text="${playlist.playListName}" class="playlist-buttons" th:attr="data-playlist-id=${playlist.playlist_id}"></button>
+                            <span th:text="${playlist.countVideosInPlaylist()}"></span>
+                        </div>
+                        <input type="hidden" id="videoId" name="videoId">
+                        <input type="hidden" id="playlistId" name="playlistId">
+                    </form>
+                    <button onclick="closeModal()">Close</button>
+                </div>
+            </div>
+
+
+            <div class="video-container">
+                <div th:each="video : ${videos}">
+                    <p th:text="${video.video_title}"></p>
+                    <button type="submit" class="add-to-playlist-btn" th:attr="data-video-id=${video.video_id}">Add to playlist</button>
+                </div>
+            </div>
+        </section>
     </div>
-</section>
+<!--    End of right container-->
+
+</div>
+<!--End of main container-->
 <script>
     let videoId;
     document.querySelectorAll('.add-to-playlist-btn').forEach(button => {

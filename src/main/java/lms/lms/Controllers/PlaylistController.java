@@ -19,14 +19,10 @@ import java.util.List;
 
 @Controller
 public class PlaylistController {
-
     private final PlaylistRepository playlistDao;
     private final UserRepository userDao;
-
     private final PlaylistVideoRepository playlistVideoDao;
-
     private final VideoRepository videoDao;
-
     public PlaylistController(PlaylistRepository playlistDao, UserRepository userDao, PlaylistVideoRepository playlistVideoDao, VideoRepository videoDao){
         this.playlistDao = playlistDao;
         this.userDao = userDao;
@@ -45,11 +41,8 @@ public class PlaylistController {
 
     @PostMapping("/playlistview/{id}")
     public String editPlaylistView(@PathVariable("id") Long id, @RequestParam("videoId") Long videoId, Model model){
-//        We need to save any update the user did to the playlist.
-//        I need to check if the user changed the playlist name, or removed the videos form the playlist.
     Playlist playlist = playlistDao.findById(id).get();
     Video video = videoDao.findById(videoId).get();
-
     PlaylistVideo playlistVideo = playlistVideoDao.findAll().stream()
             .filter(pv -> pv.getPlaylist().equals(playlist) && pv.getVideo().equals(video))
             .findFirst()
