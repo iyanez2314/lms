@@ -2,6 +2,7 @@ package lms.lms.Models;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -30,7 +31,7 @@ public class User {
     private List<Playlist> playlists;
 
 
-    @OneToMany(cascade =  CascadeType.PERSIST, mappedBy = "user")
+    @OneToMany(cascade =  CascadeType.PERSIST , mappedBy = "user")
     private List<UserLanguage> userLanguages;
 
     @Override
@@ -68,6 +69,9 @@ public class User {
     }
 
     public List<UserLanguage> getUserLanguages() {
+        if (userLanguages == null) {
+            userLanguages = new ArrayList<>();
+        }
         return userLanguages;
     }
 

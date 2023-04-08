@@ -12,5 +12,13 @@
         <input id="password" name="password">
         <input type="submit" value="update">
     </form>
+
+    <form th:action="@{/settings/languages}" th:method="post">
+        <div th:each="language : ${allProgrammingLanguages}">
+            <input type="checkbox" th:id="${'language-' + language.language_id}" th:name="selectedLanguageIds" th:value="${language.language_id}" />
+            <label th:for="${'language-' + language.language_id}" th:text="${language.language_name}"></label>
+        </div>
+        <input type="submit" value="Save Languages">
+    </form>
 </body>
 </html>

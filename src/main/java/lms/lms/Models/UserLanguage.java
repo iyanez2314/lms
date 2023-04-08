@@ -33,6 +33,10 @@ public class UserLanguage {
         this.user = user;
     }
 
+    public UserLanguage(Language language, User user) {
+        this.language = language;
+        this.user = user;
+    }
 
     //    Getters and Setters
     public Long getUserlanguesId() {
