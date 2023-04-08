@@ -5,9 +5,25 @@
     <title>Title</title>
 </head>
 <body>
-  <h1 th:text="${playlist.playListName}"></h1>
-  <div th:each="video : ${videos}">
-        <h1 th:text="${video.video.getVideo_title()}"></h1>
-  </div>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="playlist-view-wrapper">
+    <h1 th:text="${playlist.playListName}"></h1>
+    <div th:each="video : ${videos}">
+        <h1 th:text="${video.video.video_title}"></h1>
+        <form th:action="@{/playlistview/} + ${playlist.playlist_id}" th:method="POST">
+            <input type="hidden" th:value="${video.video.video_id}" name="videoId" />
+            <button type="submit">Remove Video</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
+
 </body>
 </html>
