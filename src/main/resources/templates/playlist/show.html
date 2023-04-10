@@ -20,10 +20,10 @@
                 <button id="edit-button">edit</button>
             </div>
             <form th:method="POST" th:action="@{/playlist/} + ${playlist.playlist_id} + @{/edit}" id="edit-title-form" class="hidden flex justify-between">
-                <input name="playlist-name-change"  th:value="${playlist.playListName}" class="text-2xl font-bold text-gray-800">
+                <input name="playlist-name-change"  th:value="${playlist.playListName}" class="text-2xl font-bold text-gray-800 border-2">
                 <div class="edit-button-container">
-                <input type="submit" value="Confirm Edit">
-                <input type="button" onclick="exitEdit()" value="Cancel Edit">
+                    <button type="submit" class="bg-green-500 px-4 py-2 hover:bg-green-600  text-white font-bold rounded transition-colors duration-300">Confirm Edit</button>
+                <button type="button" onclick="exitEdit()" class="px-4 py-2 bg-red-500 hover:bg-red-600  text-white font-bold rounded transition-colors duration-300">Cancel Edit</button>
                 </div>
             </form>
         </div>

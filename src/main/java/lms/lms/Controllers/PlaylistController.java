@@ -60,7 +60,11 @@ public class PlaylistController {
 
     @PostMapping("/playlist/{id}/edit")
     public String editPlaylistName(@PathVariable("id") Long id, @RequestParam("playlist-name-change") String playlistNameChange){
-        System.out.println(playlistNameChange);
+        Playlist playlist = playlistDao.findById(id).get();
+        if(playlistNameChange != null){
+            playlist.setPlayListName(playlistNameChange);
+            playlistDao.save(playlist);
+        }
         return "redirect:/playlistview/" + id;
     }
 
