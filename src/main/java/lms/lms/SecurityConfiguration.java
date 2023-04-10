@@ -53,6 +53,7 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers(
+                        "/playlist/{id}/edit",
                         "/settings/languages",
                         "/playlistview/{id}",
                         "/add-video-to-playlist",

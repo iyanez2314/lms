@@ -3,27 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <!-- Import Tailwind CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css">
+    <style>
+        body {
+            font-family: 'Space Mono', monospace;
+        }
+    </style>
 </head>
-<body>
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<div class="playlist-view-wrapper">
-    <h1 th:text="${playlist.playListName}"></h1>
-    <div th:each="video : ${videos}">
-        <h1 th:text="${video.video.video_title}"></h1>
-        <form th:action="@{/playlistview/} + ${playlist.playlist_id}" th:method="POST">
-            <input type="hidden" th:value="${video.video.video_id}" name="videoId" />
-            <button type="submit">Remove Video</button>
-        </form>
+<body class="bg-gray-100">
+<nav th:replace="partials/navbar :: navbar(isAuthenticated=${#authentication.principal != 'anonymousUser'})"></nav>
+    <div class="max-w-4xl mx-auto mt-8">
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <div class="flex justify-between">
+                <h1 th:text="${playlist.playListName}" id="playlist-name" class="text-2xl font-bold text-gray-800"></h1>
+                <button id="edit-button">edit</button>
+            </div>
+            <form th:method="POST" th:action="@{/playlist/} + ${playlist.playlist_id} + @{/edit}" id="edit-title-form" class="hidden flex justify-between">
+                <input name="playlist-name-change"  th:value="${playlist.playListName}" class="text-2xl font-bold text-gray-800">
+                <div class="edit-button-container">
+                <input type="submit" value="Confirm Edit">
+                <input type="button" onclick="exitEdit()" value="Cancel Edit">
+                </div>
+            </form>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div th:each="video : ${videos}">
+                <div class="bg-white p-6 rounded-lg shadow-md h-60">
+                    <h2 th:text="${video.video.video_title}" class="text-lg font-medium text-gray-800 mb-4"></h2>
+                    <form th:action="@{/playlistview/} + ${playlist.playlist_id}" th:method="POST">
+                        <input type="hidden" th:value="${video.video.video_id}" name="videoId" />
+                        <button type="submit" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded transition-colors duration-300">Remove Video</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-</body>
-</html>
+<script>
+    const buttonElem = document.getElementById("edit-button");
+    const playlistnameElem = document.getElementById("playlist-name");
+    const editTitleForm = document.getElementById("edit-title-form")
 
+    function toggleForm(){
+        playlistnameElem.classList.toggle('hidden');
+        editTitleForm.classList.toggle('hidden');
+        buttonElem.classList.toggle('hidden');
+    }
+
+    function exitEdit(){
+        playlistnameElem.classList.toggle('hidden');
+        editTitleForm.classList.toggle('hidden');
+        buttonElem.classList.toggle('hidden');
+    }
+
+    buttonElem.addEventListener("click", function (event){
+        event.preventDefault();
+        toggleForm();
+    })
+</script>
 </body>
 </html>
