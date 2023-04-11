@@ -16,9 +16,18 @@ public class Video {
     @Column(nullable = false, length = 255)
     private String video_url;
 
+    @Column(nullable = false, length = 255)
+    private String thumbnail_url;
+
     public Video() {
     }
 
+
+    public Video(String video_title, String video_url, String thumbnail_url) {
+        this.video_title = video_title;
+        this.video_url = video_url;
+        this.thumbnail_url = thumbnail_url;
+    }
 
     public Video(String video_title, String video_url) {
         this.video_title = video_title;
@@ -30,6 +39,16 @@ public class Video {
         this.video_title = video_title;
         this.video_url = video_url;
     }
+
+
+    public String getThumbnail_url() {
+        return thumbnail_url;
+    }
+
+    public void setThumbnail_url(String thumbnail_url) {
+        this.thumbnail_url = thumbnail_url;
+    }
+
 
     public long getVideo_id() {
         return video_id;
