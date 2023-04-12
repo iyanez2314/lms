@@ -210,7 +210,6 @@ public class YoutubeApiService {
                 List<Video> videos = new ArrayList<>();
                 for (YoutubeVideo youtubeVideo : youtubeVideos) {
                     Video video = new Video(youtubeVideo.getTitle(), youtubeVideo.getUrl(), youtubeVideo.getThumbnail());
-                    videoDao.save(video);
                     videos.add(video);
                 }
                 return videos;

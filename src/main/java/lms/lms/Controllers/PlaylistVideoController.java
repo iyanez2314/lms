@@ -31,6 +31,7 @@ public class PlaylistVideoController {
         // Query the DB for the playlists and the videos
         Playlist playlist = playlistDao.findById(playlistId).get();
         Video video = videoDao.findById(videoId).get();
+
         // Save the association to the join table
         PlaylistVideo newPlaylistVideo = new PlaylistVideo(playlist, video);
         playlistVideoDao.save(newPlaylistVideo);

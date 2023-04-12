@@ -62,14 +62,15 @@
     </div>
 
     <!--Right container-->
-    <div class="w-full md:w-1/2 lg:w-1/2">
+    <div class="w-full md:w-1/2 lg:w-1/2 vide">
         <!--Mimicked Videos-->
         <section class="videos-wrapper">
             <div class="bg-white p-4 rounded shadow-md">
+                <form th:action="@{/profile}" th:method="POST">
+                    <input th:type="text" value="Enter a language you would like to learn">
+                    <button type="submit" id="search-api">Search</button>
+                </form>
                 <div th:each="video : ${videos}" class="mb-4">
-                    <div class="w-1/4">
-                        <img th:src="${video.thumbnail_url}" alt="Video Thumbnail" class="w-full h-auto">
-                    </div>
                     <p th:text="${video.video_title}" class="font-semibold"></p>
                     <button type="submit" class="add-to-playlist-btn bg-yellow-500 text-white px-4 py-2 rounded" th:attr="data-video-id=${video.video_id}">Add to playlist</button>
                 </div>
