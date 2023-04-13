@@ -101,20 +101,46 @@
 <!--End of main container-->
 <script>
     let videoId;
+    // This will attach an event listener to  the buttons that are on the videos
     document.querySelectorAll('.add-to-playlist-btn').forEach(button => {
+        // When said button is clicked it will attach the video id to the global variable and call the open modal function
         button.addEventListener('click', function () {
             videoId = this.getAttribute('data-video-id');
+            // Maybe do a post method to an endpoint that would save the video object to my db when they click
+                fetch("/test/vid", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "video_title": "something",
+                        "video_url": "something else",
+                        "thumbnail_url": "something.com"
+                    })
+                })
+                    .then(response => response.json())
+                    .then(result => console.log(result))
+                    .catch(error => console.log("error", error))
             openModal();
         });
     });
+
+
+    // This will look for all the playlist buttons that are on the page and attach an event listener
     document.querySelectorAll('.playlist-buttons').forEach(button => {
         button.addEventListener('click', function () {
+            // When said button is clicked we will get the id of the playlist we clicked
             const playlistId = this.getAttribute('data-playlist-id');
+            // we then get the hidden inputs on the page for the videoId
             const videoIdInput = document.getElementById('videoId');
+            // We also get the hidden input  for the playlist
             const playlistIdInput = document.getElementById('playlistId');
 
+            // We then change the value of those hidden fields to the videoId that we have stored globally
             videoIdInput.value = videoId;
+            // We do the same with the playlistId
             playlistIdInput.value = playlistId;
+
 
             document.getElementById('playlist-form').submit();
         });

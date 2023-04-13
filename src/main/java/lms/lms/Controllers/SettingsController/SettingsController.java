@@ -1,6 +1,9 @@
-package lms.lms.Controllers;
+package lms.lms.Controllers.SettingsController;
 
 
+import lms.lms.Controllers.LanguageRepository;
+import lms.lms.Controllers.UserLanguageRepository;
+import lms.lms.Controllers.UserRepository;
 import lms.lms.Models.Language;
 import lms.lms.Models.User;
 import lms.lms.Models.UserLanguage;

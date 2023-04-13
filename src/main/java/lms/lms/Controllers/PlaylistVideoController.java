@@ -28,6 +28,7 @@ public class PlaylistVideoController {
 
     @PostMapping("/add-video-to-playlist")
     public String addVideoToPlaylist(@RequestParam("videoId") Long videoId, @RequestParam("playlistId") Long playlistId) {
+        System.out.println(videoId);
         // Query the DB for the playlists and the videos
         Playlist playlist = playlistDao.findById(playlistId).get();
         Video video = videoDao.findById(videoId).get();

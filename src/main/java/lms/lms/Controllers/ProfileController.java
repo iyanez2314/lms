@@ -58,7 +58,7 @@ public class ProfileController {
         for( Video video : fetchedVideos){
             Video newVideo = new Video(video.getVideo_title(), video.getVideo_url(), video.getThumbnail_url());
                 videos.add(newVideo);
-                videoDao.save(newVideo);
+//                videoDao.save(newVideo);
         }
         return "redirect:/profile";
     }
