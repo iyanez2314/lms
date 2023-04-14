@@ -72,7 +72,6 @@
                     <button type="submit" id="search-api">Search</button>
                 </form>
                 <div th:each="video : ${videos}" class="mb-4">
-                    <span th:text="${video.video_id}"></span>
                     <p th:text="${video.video_title}" class="font-semibold"></p>
                     <button type="submit" class="add-to-playlist-btn bg-yellow-500 text-white px-4 py-2 rounded" th:attr="data-video-id=${video.video_id}, data-video-title=${video.video_title}, data-video-url=${video.video_url}, data-video-thumbNail=${video.thumbnail_url}" >Add to playlist</button>
                 </div>
@@ -107,7 +106,7 @@
     document.querySelectorAll('.add-to-playlist-btn').forEach(button => {
         // When said button is clicked it will attach the video id to the global variable and call the open modal function
         button.addEventListener('click', function () {
-            videoId = this.getAttribute('data-video-id');
+            // videoId = this.getAttribute('data-video-id');
             const videoTitle = this.getAttribute('data-video-title');
             const videoUrl = this.getAttribute('data-video-url');
             const videoThumbNail = this.getAttribute('data-video-thumbNail');
