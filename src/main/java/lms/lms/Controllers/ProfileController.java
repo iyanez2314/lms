@@ -44,7 +44,6 @@ public class ProfileController {
         User user = userDao.findById(userId).get();
         List<Playlist> usersPlayList = user.getPlaylists();
         int usersPlaylistCount = user.countPlaylist();
-        System.out.println(videos);
         model.addAttribute("videos", videos);
         model.addAttribute("playlists", usersPlayList);
         model.addAttribute("plalistcount", usersPlaylistCount);
@@ -58,13 +57,7 @@ public class ProfileController {
         for( Video video : fetchedVideos){
             Video newVideo = new Video(video.getVideo_title(), video.getVideo_url(), video.getThumbnail_url());
                 videos.add(newVideo);
-//                videoDao.save(newVideo);
         }
         return "redirect:/profile";
     }
-
-    public static void main(String[] args) {
-
-    }
-
 }

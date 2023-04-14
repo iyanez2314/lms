@@ -9,6 +9,8 @@
             font-family: 'Space Mono', monospace;
         }
     </style>
+    <meta th:name="_csrf" th:content="${_csrf.token}"/>
+    <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 <body class="bg-gray-100">
 <nav th:replace="partials/navbar :: navbar(isAuthenticated=${#authentication.principal != 'anonymousUser'})"></nav>
@@ -63,7 +65,6 @@
 
     <!--Right container-->
     <div class="w-full md:w-1/2 lg:w-1/2 vide">
-        <!--Mimicked Videos-->
         <section class="videos-wrapper">
             <div class="bg-white p-4 rounded shadow-md">
                 <form th:action="@{/profile}" th:method="POST">
@@ -71,8 +72,9 @@
                     <button type="submit" id="search-api">Search</button>
                 </form>
                 <div th:each="video : ${videos}" class="mb-4">
+                    <span th:text="${video.video_id}"></span>
                     <p th:text="${video.video_title}" class="font-semibold"></p>
-                    <button type="submit" class="add-to-playlist-btn bg-yellow-500 text-white px-4 py-2 rounded" th:attr="data-video-id=${video.video_id}">Add to playlist</button>
+                    <button type="submit" class="add-to-playlist-btn bg-yellow-500 text-white px-4 py-2 rounded" th:attr="data-video-id=${video.video_id}, data-video-title=${video.video_title}, data-video-url=${video.video_url}, data-video-thumbNail=${video.thumbnail_url}" >Add to playlist</button>
                 </div>
             </div>
         </section>
@@ -85,9 +87,9 @@
     <div id="playlist-modal" class="fixed inset-0 flex items-center justify-center hidden">
         <div class="modal-content bg-white p-6 rounded-lg shadow-md w-full max-w-sm">
             <h2 class="text-xl font-bold mb-4">Select Playlist</h2>
-            <form id="playlist-form" th:action="@{/add-video-to-playlist}" th:method="post">
+            <form id="playlist-form" th:action="@{/add-video-to-playlist}"  th:method="post">
                 <div th:each="playlist : ${playlists}" class="mb-4">
-                    <button type="submit" th:text="${playlist.playListName}" class="playlist-buttons w-full bg-blue-500 text-white px-4 py-2 rounded" th:attr="data-playlist-id=${playlist.playlist_id}"></button>
+                    <button type="button" th:text="${playlist.playListName}" class="playlist-buttons w-full bg-blue-500 text-white px-4 py-2 rounded" th:attr="data-playlist-id=${playlist.playlist_id}"></button>
                     <span th:text="${playlist.countVideosInPlaylist()}"></span>
                 </div>
                 <input type="hidden" id="videoId" name="videoId">
@@ -106,42 +108,52 @@
         // When said button is clicked it will attach the video id to the global variable and call the open modal function
         button.addEventListener('click', function () {
             videoId = this.getAttribute('data-video-id');
+            const videoTitle = this.getAttribute('data-video-title');
+            const videoUrl = this.getAttribute('data-video-url');
+            const videoThumbNail = this.getAttribute('data-video-thumbNail');
             // Maybe do a post method to an endpoint that would save the video object to my db when they click
-                fetch("/test/vid", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        "video_title": "something",
-                        "video_url": "something else",
-                        "thumbnail_url": "something.com"
-                    })
-                })
-                    .then(response => response.json())
-                    .then(result => console.log(result))
-                    .catch(error => console.log("error", error))
+            submitNewVideo(videoTitle, videoUrl, videoThumbNail);
             openModal();
         });
     });
 
+    function submitNewVideo(videoTitle, videoUrl, videoThumbnail){
+        const csrfToken = document.querySelector('meta[name="_csrf"]').content;
+        const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
+        fetch("/test/vid", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                [csrfHeader]: csrfToken
+            },
+            body: JSON.stringify({
+                "video_title": videoTitle,
+                "video_url": videoUrl,
+                "thumbnail_url": videoThumbnail
+            }),
+        })
+            .then(response => response.json())
+            .then(result => {
+                console.log(result)
+                videoId = result.video_id
+            })
+            .catch(error => console.log("error", error))
+    }
 
     // This will look for all the playlist buttons that are on the page and attach an event listener
     document.querySelectorAll('.playlist-buttons').forEach(button => {
-        button.addEventListener('click', function () {
-            // When said button is clicked we will get the id of the playlist we clicked
+        button.addEventListener('click', function (e) {
+            e.preventDefault(); // Prevent the form submission
+
             const playlistId = this.getAttribute('data-playlist-id');
-            // we then get the hidden inputs on the page for the videoId
             const videoIdInput = document.getElementById('videoId');
-            // We also get the hidden input  for the playlist
             const playlistIdInput = document.getElementById('playlistId');
 
-            // We then change the value of those hidden fields to the videoId that we have stored globally
             videoIdInput.value = videoId;
-            // We do the same with the playlistId
             playlistIdInput.value = playlistId;
 
 
+            // Manually submit the form after setting the values
             document.getElementById('playlist-form').submit();
         });
     });
