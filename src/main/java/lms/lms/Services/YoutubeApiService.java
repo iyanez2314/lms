@@ -4,7 +4,9 @@ package lms.lms.Services;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lms.lms.Controllers.UserRepository;
 import lms.lms.Controllers.VideoRepository;
+import lms.lms.Models.User;
 import lms.lms.Models.Video;
 import okhttp3.*;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,9 +27,11 @@ import java.util.function.Function;
 public class YoutubeApiService {
 
     private VideoRepository videoDao;
+    private UserRepository userDao;
 
-    public YoutubeApiService(VideoRepository videoDao) {
+    public YoutubeApiService(VideoRepository videoDao, UserRepository userDao) {
         this.videoDao = videoDao;
+        this.userDao = userDao;
     }
 
     private static final String YOUTUBE_API = "https://www.googleapis.com/youtube/v3/search?part=snippet&type=28&maxResults=25&q=react+javascript+python+node+java&key=AIzaSyCgPajuAVH3c8gRzI5AxVbLhyBRUwz-BQE";
@@ -179,9 +184,13 @@ public class YoutubeApiService {
     }
 
     private List<YoutubeVideo> makeRequest() throws IOException {
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long userId = loggedInUser.getId();
+        User user = userDao.findById(userId).get();
         OkHttpClient client = getOkHttpClient();
+        String youtubeApiUrl = getYouTubeApiUrl(user);
         Request request = new Request.Builder()
-                .url(YOUTUBE_API)
+                .url(youtubeApiUrl)
                 .build();
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -217,4 +226,12 @@ public class YoutubeApiService {
                 throw new RuntimeException(e);
             }
         };
+
+    private String getYouTubeApiUrl(User user){
+        String preferredLanguages = user.getPreferredLanguagesQueryString();
+        if(preferredLanguages.isEmpty()){
+            return YOUTUBE_API;
+        }
+        return "https://www.googleapis.com/youtube/v3/search?part=snippet&type=28&maxResults=25&q=" + preferredLanguages + "&key=AIzaSyCgPajuAVH3c8gRzI5AxVbLhyBRUwz-BQE";
+    }
 }

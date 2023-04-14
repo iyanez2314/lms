@@ -110,4 +110,18 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getPreferredLanguagesQueryString(){
+        if(userLanguages == null || userLanguages.isEmpty()){
+            return "";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for(UserLanguage userLanguage : userLanguages){
+            sb.append(userLanguage.getLanguage().getLanguage_name()).append('+');
+        }
+
+        sb.setLength(sb.length() - 1);
+        return sb.toString();
+    }
 }
