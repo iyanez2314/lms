@@ -34,7 +34,7 @@ public class YoutubeApiService {
         this.userDao = userDao;
     }
 
-    private static final String YOUTUBE_API = "https://www.googleapis.com/youtube/v3/search?part=snippet&type=28&maxResults=25&q=react+javascript+python+node+java&key=AIzaSyCgPajuAVH3c8gRzI5AxVbLhyBRUwz-BQE";
+    private static final String YOUTUBE_API = "https://www.googleapis.com/youtube/v3/search?part=snippet&type=28&maxResults=50&q=react+javascript+python+node+java&key=AIzaSyCgPajuAVH3c8gRzI5AxVbLhyBRUwz-BQE";
 
 
     public static class YoutubeVideo {
@@ -232,6 +232,6 @@ public class YoutubeApiService {
         if(preferredLanguages.isEmpty()){
             return YOUTUBE_API;
         }
-        return "https://www.googleapis.com/youtube/v3/search?part=snippet&type=28&maxResults=25&q=" + preferredLanguages + "&key=AIzaSyCgPajuAVH3c8gRzI5AxVbLhyBRUwz-BQE";
+        return "https://www.googleapis.com/youtube/v3/search?part=snippet&type=28&maxResults=50&q=" + preferredLanguages + "&key=AIzaSyCgPajuAVH3c8gRzI5AxVbLhyBRUwz-BQE";
     }
 }

@@ -43,13 +43,15 @@
         <section class="user-playlist-wrapper mt-5">
             <div class="bg-white p-4 rounded shadow-md">
                 <div class="user-playlist-container-header mb-4">
-                    <h1 class="text-xl font-bold">All playlist's <span th:text="${plalistcount}">0</span></h1>
+                    <h1 class="text-xl font-bold">All playlist's <span th:text="${plalistcount}" class="bg-blue-500 text-white px-2 py-1 rounded-full text-sm">0</span></h1>
                 </div>
                 <div th:each="playlist : ${playlists}" class="mb-4">
-                    <h1 th:text="${playlist.playListName}" class="font-semibold"></h1>
-                    <span th:text="${playlist.countVideosInPlaylist()}"></span>
+                    <div class="flex items-center">
+                        <h1 th:text="${playlist.playListName}" class="font-semibold mr-2"></h1>
+                        <span class="bg-blue-500 text-white px-2 py-1 rounded-full text-sm" th:text="${playlist.countVideosInPlaylist()}"></span>
+                    </div>
                     <form th:action="@{/playlistview/} + ${playlist.playlist_id}" th:method="GET">
-                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded mt-2">View Videos</button>
+                        <button type="submit" class="bg-yellow-500 text-white px-4 py-2 rounded mt-2">View Videos</button>
                     </form>
                 </div>
             </div>
@@ -74,21 +76,33 @@
         </section>
     </div>
 
+<!--    End of left -->
+
+
+
     <!--Right container-->
     <div class="w-full md:w-1/2 lg:w-1/2 vide">
         <section class="videos-wrapper">
             <div class="bg-white p-4 rounded shadow-md">
                 <form th:action="@{/profile}" th:method="POST">
-                    <input th:type="text" value="Enter a language you would like to learn">
-                    <button type="submit" id="search-api">Search</button>
+                    <div class="flex justify-center">
+                        <button type="submit" id="search-api">View Videos</button>
+                    </div>
                 </form>
-                <div th:each="video : ${videos}" class="mb-4">
-                    <p th:text="${video.video_title}" class="font-semibold"></p>
-                    <button type="submit" class="add-to-playlist-btn bg-yellow-500 text-white px-4 py-2 rounded" th:attr="data-video-id=${video.video_id}, data-video-title=${video.video_title}, data-video-url=${video.video_url}, data-video-thumbNail=${video.thumbnail_url}" >Add to playlist</button>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
+                    <div th:each="video : ${videos}" class="bg-white p-4 rounded-lg shadow-md mb-4">
+                        <img th:src="${video.thumbnail_url}"  class="rounded-t-lg mb-4 w-full h-48 object-cover"/>
+                        <h3 class="text-lg font-bold mb-2" th:text="${video.video_title}"></h3>
+                        <a th:href="${video.video_url}" th:target="_blank" class="text-gray-700 mb-4">View Video</a>
+                        <button type="submit" class="add-to-playlist-btn bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded" th:attr="data-video-id=${video.video_id}, data-video-title=${video.video_title}, data-video-url=${video.video_url}, data-video-thumbNail=${video.thumbnail_url}" >
+                            Add to playlist
+                        </button>
+                    </div>
                 </div>
             </div>
         </section>
     </div>
+
 
     <!--End of right container-->
 
