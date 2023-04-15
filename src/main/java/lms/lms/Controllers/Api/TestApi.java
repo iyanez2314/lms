@@ -39,21 +39,43 @@ public class TestApi {
        return  new ResponseEntity<>(saveVideo, HttpStatus.CREATED);
     }
 
-//    @PostMapping("/add-video-to-playlist")
-//    public ResponseEntity<?> saveVideoToPlaylist(@RequestParam("videoId") Long videoId, @RequestParam("playlistId") Long playlistId){
-//        System.out.println("VideoID is =>" + videoId);
-//
-//        Playlist playlist = playlistDao.findById(playlistId).get();
-//        Video video = videoDao.findById(videoId).get();
-//
-//        System.out.println("the playlist => "+ playlist.getPlayListName());
-//        System.out.println("the video name => " + video.getVideo_title());
-//
-//        // Save the association to the join table
-//        // PlaylistVideo newPlaylistVideo = new PlaylistVideo(playlist, video);
-//        // playlistVideoDao.save(newPlaylistVideo);
-//
-//        // Return a response
-//        return ResponseEntity.ok().body("Video added to playlist");
-//    }
+    @PostMapping("profilepic-upload")
+    public ExampleData saveProfilePic(@RequestBody ExampleData requestData){
+        Long userId = requestData.userId;
+        User user = userDao.findById(userId).get();
+        user.setProfilePic_url(requestData.message);
+        userDao.save(user);
+        System.out.println("Received request data: " + requestData);
+        return requestData;
+    }
+
+
+    public static class ExampleData {
+        private String message;
+        private Long userId;
+
+
+        public Long getUserId() {
+            return userId;
+        }
+
+        public void setUserId(Long userId) {
+            this.userId = userId;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+
+        @Override
+        public String toString() {
+            return "ExampleData{" +
+                    "message='" + message + '\'' +
+                    '}';
+        }
+    }
 }

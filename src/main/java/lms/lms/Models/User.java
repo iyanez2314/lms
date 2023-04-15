@@ -27,6 +27,10 @@ public class User {
     private String password;
 
 
+    @Column(nullable = true, length = 255)
+    private String profile_pic_url;
+
+
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "user")
     private List<Playlist> playlists;
 
@@ -55,6 +59,13 @@ public class User {
     }
 
 
+    public String getProfilePic_url() {
+        return profile_pic_url;
+    }
+
+    public void setProfilePic_url(String profilePic_url) {
+        this.profile_pic_url = profilePic_url;
+    }
 
     public int countPlaylist(){
         return this.playlists.size();

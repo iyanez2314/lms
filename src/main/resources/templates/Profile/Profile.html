@@ -20,14 +20,40 @@
     <div class="w-full md:w-1/2 lg:w-1/4">
         <div class="bg-white p-4 rounded shadow-md mb-6">
             <h1 class="text-xl font-bold mb-4">Profile</h1>
+            <div class="w-full flex justify-center mb-4">
+                <!-- Show the profile picture if it exists -->
+                <div th:if="${user.getProfilePic_url() != null}" class="cursor-pointer w-24 h-24 rounded-full overflow-hidden">
+                    <img th:src="${user.getProfilePic_url()}" alt="Profile Picture" class="w-24 h-24 object-cover rounded-full"/>
+                </div>
+
+                <!-- Show the SVG to add a profile picture if it doesn't exist -->
+                <div th:unless="${user.getProfilePic_url() != null}" id="profile-pic" class="cursor-pointer w-24 h-24 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center text-blue-500">
+                    <svg class="w-12 h-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+            </div>
             <div sec:authorize="isAuthenticated()">
-                UserId: <span th:text="${user.id}"/>
+                <span type="hidden" id="usersId" th:attr="data-user-id=${user.id}"></span>
+                <span th:text="${user.username}"/>
                 <br>
-                User username: <span th:text="${user.username}"/>
-                <br>
-                User Email: <span th:text="${user.email}"/>
+                <span th:text="${user.email}"/>
             </div>
         </div>
+        <section class="user-playlist-wrapper mt-5">
+            <div class="bg-white p-4 rounded shadow-md">
+                <div class="user-playlist-container-header mb-4">
+                    <h1 class="text-xl font-bold">All playlist's <span th:text="${plalistcount}">0</span></h1>
+                </div>
+                <div th:each="playlist : ${playlists}" class="mb-4">
+                    <h1 th:text="${playlist.playListName}" class="font-semibold"></h1>
+                    <span th:text="${playlist.countVideosInPlaylist()}"></span>
+                    <form th:action="@{/playlistview/} + ${playlist.playlist_id}" th:method="GET">
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded mt-2">View Videos</button>
+                    </form>
+                </div>
+            </div>
+        </section>
     </div>
 
     <!--Playlist Count Section -->
@@ -45,21 +71,6 @@
                     </form>
                 </div>
             </div>
-        </section>
-        <section class="user-playlist-wrapper mt-5">
-            <div class="bg-white p-4 rounded shadow-md">
-                <div class="user-playlist-container-header mb-4">
-                    <h1 class="text-xl font-bold">All playlist's <span th:text="${plalistcount}">0</span></h1>
-                </div>
-                <div th:each="playlist : ${playlists}" class="mb-4">
-                    <h1 th:text="${playlist.playListName}" class="font-semibold"></h1>
-                    <span th:text="${playlist.countVideosInPlaylist()}"></span>
-                    <form th:action="@{/playlistview/} + ${playlist.playlist_id}" th:method="GET">
-                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded mt-2">View Videos</button>
-                    </form>
-                </div>
-            </div>
-
         </section>
     </div>
 
@@ -100,7 +111,10 @@
 <!--    End of modal-->
 </div>
 <!--End of main container-->
+<script src="https://static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>
 <script>
+
+    const profilePicElem = document.getElementById("profile-pic");
     let videoId;
     // This will attach an event listener to  the buttons that are on the videos
     document.querySelectorAll('.add-to-playlist-btn').forEach(button => {
@@ -157,15 +171,49 @@
         });
     });
 
+
+    const client = filestack.init("AhmkLILcZQLGXSg430xAhz");
+
+    profilePicElem.addEventListener("click", () => {
+        client.picker({
+            onUploadDone: (res) => {
+                console.log(res)
+                postProfilePicData(res)
+            },
+        }).open();
+    });
+
+    function postProfilePicData(res){
+        const profilePictureUrl = res.filesUploaded[0].url
+        const usersIdElem = document.getElementById('usersId')
+        const usersId = usersIdElem.getAttribute("data-user-id")
+        const csrfToken = document.querySelector('meta[name="_csrf"]').content;
+        const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
+        fetch("/test/profilepic-upload", {
+            method: "POST",
+            headers : {
+                "Content-Type": "application/json",
+                [csrfHeader]: csrfToken,
+            },
+            body: JSON.stringify({
+                "message": profilePictureUrl,
+                "userId": usersId
+            })
+        })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error(error))
+    }
+
     function closeModal() {
         document.getElementById('playlist-modal').classList.add('hidden');
         document.getElementById('modal-backdrop').classList.add('hidden');
-    }
+    };
 
     function openModal() {
         document.getElementById('playlist-modal').classList.remove('hidden');
         document.getElementById('modal-backdrop').classList.remove('hidden');
-    }
+    };
 </script>
 </body>
 </html>
