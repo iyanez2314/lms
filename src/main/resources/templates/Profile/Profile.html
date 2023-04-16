@@ -122,6 +122,15 @@
             <button onclick="closeModal()" class="bg-red-500 text-white px-4 py-2 rounded float-right">Close</button>
         </div>
     </div>
+
+    <div class="relative group mt-5 bg-white p-3 rounded-full shadow-md mb-4">
+        <form th:method="GET" th:action="@{/ai-assistant}">
+            <button type="submit"><img th:src="@{/images/ai-robot-head.png}" style="height: 65px"></button>
+        </form>
+        <div class="absolute left-0 ml-12 mt-2 w-36 p-1 bg-green-500 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition duration-300">
+            AI Assistant
+        </div>
+    </div>
 <!--    End of modal-->
 </div>
 <!--End of main container-->
