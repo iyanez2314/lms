@@ -106,34 +106,25 @@
 
     <!--End of right container-->
 
-    <!-- Modal -->
-    <div id="modal-backdrop" class="fixed inset-0 bg-black opacity-50 hidden" onclick="closeModal()"></div>
-    <div id="playlist-modal" class="fixed inset-0 flex items-center justify-center hidden">
-        <div class="modal-content bg-white p-6 rounded-lg shadow-md w-full max-w-sm">
-            <h2 class="text-xl font-bold mb-4">Select Playlist</h2>
-            <form id="playlist-form" th:action="@{/add-video-to-playlist}"  th:method="post">
-                <div th:each="playlist : ${playlists}" class="mb-4">
-                    <button type="button" th:text="${playlist.playListName}" class="playlist-buttons w-full bg-blue-500 text-white px-4 py-2 rounded" th:attr="data-playlist-id=${playlist.playlist_id}"></button>
-                    <span th:text="${playlist.countVideosInPlaylist()}"></span>
-                </div>
-                <input type="hidden" id="videoId" name="videoId">
-                <input type="hidden" id="playlistId" name="playlistId">
-            </form>
-            <button onclick="closeModal()" class="bg-red-500 text-white px-4 py-2 rounded float-right">Close</button>
+    <!-- Hidden Modal -->
+    <div id="modal-backdrop" class="fixed inset-0 bg-black opacity-50 hidden" onclick="closeModal()">
+        <div id="playlist-modal" class="fixed inset-0 flex items-center justify-center hidden">
+            <div class="modal-content bg-white p-6 rounded-lg shadow-md w-full max-w-sm">
+                <h2 class="text-xl font-bold mb-4">Select Playlist</h2>
+                <form id="playlist-form" th:action="@{/add-video-to-playlist}"  th:method="post">
+                    <div th:each="playlist : ${playlists}" class="mb-4">
+                        <button type="button" th:text="${playlist.playListName}" class="playlist-buttons w-full bg-blue-500 text-white px-4 py-2 rounded" th:attr="data-playlist-id=${playlist.playlist_id}"></button>
+                        <span th:text="${playlist.countVideosInPlaylist()}"></span>
+                    </div>
+                    <input type="hidden" id="videoId" name="videoId">
+                    <input type="hidden" id="playlistId" name="playlistId">
+                </form>
+                <button onclick="closeModal()" class="bg-red-500 text-white px-4 py-2 rounded float-right">Close</button>
+            </div>
         </div>
     </div>
-
-    <div class="relative group mt-5 bg-white p-3 rounded-full shadow-md mb-4">
-        <form th:method="GET" th:action="@{/ai-assistant}">
-            <button type="submit"><img th:src="@{/images/ai-robot-head.png}" style="height: 65px"></button>
-        </form>
-        <div class="absolute left-0 ml-12 mt-2 w-36 p-1 bg-green-500 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition duration-300">
-            AI Assistant
-        </div>
-    </div>
-<!--    End of modal-->
 </div>
-<!--End of main container-->
+
 <script src="https://static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>
 <script>
 
