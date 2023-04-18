@@ -52,6 +52,7 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers(
+                        "/delete-playlist/{id}",
                         "/images/**",
                         "/ai-assistant",
                         "/playlist/{id}/edit",

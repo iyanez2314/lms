@@ -10,12 +10,12 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+
+import static java.lang.Long.parseLong;
 
 @Controller
 public class PlaylistController {
@@ -79,5 +79,31 @@ public class PlaylistController {
         newPlaylist.setUser(user);
         playlistDao.save(newPlaylist);
         return "redirect:/profile";
+    }
+
+    @PostMapping("/delete-playlist/{id}")
+    public String deletePlaylist(@PathVariable Long id) {
+        try {
+            Playlist playlist = playlistDao.findById(id).get();
+            List<PlaylistVideo> allPlayListVideos = playlistVideoDao.findAll();
+
+            for (PlaylistVideo playlistVideo : allPlayListVideos) {
+                Long playlistId = playlistVideo.getPlaylist().getPlaylist_id();
+
+                if (playlistId.equals(id)) {
+                    playlistVideoDao.delete(playlistVideo);
+                    playlistDao.delete(playlist);
+                    return "redirect:/profile";
+                }
+            }
+
+            // If no associations are found, you can still delete the playlist
+            playlistDao.delete(playlist);
+            return "redirect:/profile";
+        } catch (NoSuchElementException e) {
+            // Handle the case when the playlist is not found
+            System.out.println("Playlist not found");
+            return "ErrorViews/error";
+        }
     }
 }

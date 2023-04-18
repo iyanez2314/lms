@@ -47,10 +47,10 @@
         <div id="playlist-modal" class="fixed inset-0 flex items-center justify-center hidden">
             <div class="modal-content bg-white p-6 rounded-lg shadow-md w-full max-w-sm flex flex-col justify-between">
                 <h2 class="text-xl font-bold mb-4">Are you sure you want to delete?</h2>
-                <form id="playlist-form" th:action="@{/delete-playlist}" th:method="post">
+                <form id="playlist-form" th:action="@{/delete-playlist/} + ${playlist.playlist_id}" th:method="post">
                     <div class="flex justify-evenly">
-                        <button type="submit" class="close-delete-toggle bg-red-500 text-white px-4 py-2 rounded float-right">See Ya!</button>
-                        <button type="button" class="close-delete-toggle bg-blue-500 text-white px-4 py-2 rounded float-right">No</button>
+                        <button type="submit" class="close-delete-toggle mb-3 px-4 py-2 bg-red-500 hover:bg-red-600  text-white font-bold rounded transition-colors duration-300">See Ya!</button>
+                        <button type="button" class="close-delete-toggle mb-3 px-4 py-2 bg-green-500 hover:bg-green-600  text-white font-bold rounded transition-colors duration-300">No</button>
                     </div>
                 </form>
             </div>
