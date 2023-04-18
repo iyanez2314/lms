@@ -200,13 +200,15 @@ public class YoutubeApiService {
             YoutubeResponse youtubeResponse = objectMapper.readValue(responseBody, YoutubeResponse.class);
             List<YoutubeVideo> youtubeVideos = new ArrayList<>();
 
-            for (YoutubeResponse.Item item : youtubeResponse.getItems()) {
-                YoutubeVideo video = new YoutubeVideo();
-                video.setVideoId(item.getId().getVideoId());
-                video.setTitle(item.getSnippet().getTitle());
-                video.setUrl("https://www.youtube.com/watch?v=" + item.getId().getVideoId());
-                video.setThumbnail(item.getSnippet().getThumbnails().getDefaultThumbnail().getUrl());
-                youtubeVideos.add(video);
+            if (youtubeResponse.getItems() != null) {
+                for (YoutubeResponse.Item item : youtubeResponse.getItems()) {
+                    YoutubeVideo video = new YoutubeVideo();
+                    video.setVideoId(item.getId().getVideoId());
+                    video.setTitle(item.getSnippet().getTitle());
+                    video.setUrl("https://www.youtube.com/watch?v=" + item.getId().getVideoId());
+                    video.setThumbnail(item.getSnippet().getThumbnails().getDefaultThumbnail().getUrl());
+                    youtubeVideos.add(video);
+                }
             }
 
             return youtubeVideos;
