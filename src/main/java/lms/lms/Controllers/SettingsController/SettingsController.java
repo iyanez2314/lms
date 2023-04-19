@@ -38,6 +38,8 @@ public class SettingsController {
         this.userLanguageDao = userLanguageDao;
     }
 
+
+    // TODO: I need to send the view the users object instead of the principal.
     @GetMapping("/settings")
     public String showSettingsView(Model model){
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
