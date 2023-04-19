@@ -41,7 +41,11 @@ public class SettingsController {
     @GetMapping("/settings")
     public String showSettingsView(Model model){
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long userId = loggedInUser.getId();
+        User user = userDao.findById(userId).get();
+        String usersProfilePic = user.getProfilePic_url();
         List<Language> allProgrammingLanguages = languageDao.findAll();
+        model.addAttribute("usersImage", usersProfilePic);
         model.addAttribute("allProgrammingLanguages", allProgrammingLanguages);
         model.addAttribute("selectedLanguages", new ArrayList<>());
         model.addAttribute("user", loggedInUser);
