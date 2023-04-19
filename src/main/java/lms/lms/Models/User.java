@@ -31,6 +31,7 @@ public class User {
     private String profile_pic_url;
 
 
+
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "user")
     private List<Playlist> playlists;
 
