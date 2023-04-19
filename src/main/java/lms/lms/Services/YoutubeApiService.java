@@ -189,6 +189,7 @@ public class YoutubeApiService {
         User user = userDao.findById(userId).get();
         OkHttpClient client = getOkHttpClient();
         String youtubeApiUrl = getYouTubeApiUrl(user);
+        System.out.println("YouTube API URL: " + youtubeApiUrl);
         Request request = new Request.Builder()
                 .url(youtubeApiUrl)
                 .build();
@@ -197,20 +198,18 @@ public class YoutubeApiService {
         try (Response response = client.newCall(request).execute()) {
             assert response.body() != null;
             String responseBody = response.body().string();
+            System.out.println("RAW JSON response: " + responseBody);
             YoutubeResponse youtubeResponse = objectMapper.readValue(responseBody, YoutubeResponse.class);
             List<YoutubeVideo> youtubeVideos = new ArrayList<>();
 
-            if (youtubeResponse.getItems() != null) {
-                for (YoutubeResponse.Item item : youtubeResponse.getItems()) {
-                    YoutubeVideo video = new YoutubeVideo();
-                    video.setVideoId(item.getId().getVideoId());
-                    video.setTitle(item.getSnippet().getTitle());
-                    video.setUrl("https://www.youtube.com/watch?v=" + item.getId().getVideoId());
-                    video.setThumbnail(item.getSnippet().getThumbnails().getDefaultThumbnail().getUrl());
-                    youtubeVideos.add(video);
-                }
+            for (YoutubeResponse.Item item : youtubeResponse.getItems()) {
+                YoutubeVideo video = new YoutubeVideo();
+                video.setVideoId(item.getId().getVideoId());
+                video.setTitle(item.getSnippet().getTitle());
+                video.setUrl("https://www.youtube.com/watch?v=" + item.getId().getVideoId());
+                video.setThumbnail(item.getSnippet().getThumbnails().getDefaultThumbnail().getUrl());
+                youtubeVideos.add(video);
             }
-
             return youtubeVideos;
         }
     }
