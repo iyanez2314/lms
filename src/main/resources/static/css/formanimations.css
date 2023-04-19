@@ -1,0 +1,17 @@
+@keyframes slideInBounce {
+    0% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    80% {
+        transform: translateY(10%);
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.slide-in {
+    animation: slideInBounce 0.95s ease-out forwards;
+}
