@@ -30,9 +30,9 @@
           </form>
         </li>
         <li th:unless="${isAuthenticated}">
-          <form th:action="@{/login}" th:method="get">
-            <button class="btn-link btn text-gray-700 hover:text-green-500 transition-all duration-200">Login</button>
-          </form>
+<!--          <form th:action="@{/login}" th:method="get">-->
+            <button class="btn-link btn text-gray-700 hover:text-green-500 transition-all duration-200"> <a th:href="@{/login}">Login</a></button>
+<!--          </form>-->
         </li>
         <li th:unless="${isAuthenticated}">
           <form th:action="@{/register}" th:method="get">
