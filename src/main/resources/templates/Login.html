@@ -13,8 +13,8 @@
 </head>
 <body class="bg-gray-100">
 <nav th:replace="partials/navbar :: navbar(isAuthenticated=${#authentication.principal != 'anonymousUser'})"></nav>
-<div class=" min-h-screen flex items-center justify-center slide-in">
-    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md slide-in">
+<div class="min-h-screen flex items-center justify-center p-4 slide-in">
+    <div class="bg-white p-4 sm:p-8 rounded-lg shadow-md w-full max-w-md slide-in">
         <h1 class="text-2xl font-bold mb-6">Log In</h1>
         <div th:if="${param.error}" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
             Invalid Username and Password.
@@ -32,6 +32,6 @@
         </form>
     </div>
 </div>
-
 </body>
+
 </html>
