@@ -9,6 +9,6 @@ public class AIController {
 
     @GetMapping("/ai-assistant")
     public String showAiView(){
-        return "/AIView/aiview";
+        return "aiview";
     }
 }
