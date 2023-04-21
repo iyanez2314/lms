@@ -107,20 +107,19 @@
     <!--End of right container-->
 
     <!-- Hidden Modal -->
-    <div id="modal-backdrop" class="fixed inset-0 bg-black opacity-50 hidden" onclick="closeModal()">
-        <div id="playlist-modal" class="fixed inset-0 flex items-center justify-center hidden">
-            <div class="modal-content bg-white p-6 rounded-lg shadow-md w-full max-w-sm">
-                <h2 class="text-xl font-bold mb-4">Select Playlist</h2>
-                <form id="playlist-form" th:action="@{/add-video-to-playlist}"  th:method="post">
-                    <div th:each="playlist : ${playlists}" class="mb-4">
-                        <button type="button" th:text="${playlist.playListName}" class="playlist-buttons w-full bg-blue-500 text-white px-4 py-2 rounded" th:attr="data-playlist-id=${playlist.playlist_id}"></button>
-                        <span th:text="${playlist.countVideosInPlaylist()}"></span>
-                    </div>
-                    <input type="hidden" id="videoId" name="videoId">
-                    <input type="hidden" id="playlistId" name="playlistId">
-                </form>
-                <button onclick="closeModal()" class="bg-red-500 text-white px-4 py-2 rounded float-right">Close</button>
-            </div>
+    <div id="modal-backdrop" class="fixed inset-0 bg-black opacity-50 hidden" onclick="closeModal()"></div>
+    <div id="playlist-modal" class="fixed inset-0 flex items-center justify-center hidden">
+        <div class="modal-content bg-white p-6 rounded-lg shadow-md w-full max-w-md">
+            <h2 class="text-2xl font-bold mb-6 text-center">Select Playlist</h2>
+            <form id="playlist-form" th:action="@{/add-video-to-playlist}" th:method="post">
+                <div th:each="playlist : ${playlists}" class="mb-4 flex items-center justify-between">
+                    <button type="button" th:text="${playlist.playListName}" class="playlist-buttons bg-blue-500 text-white px-4 py-2 rounded" th:attr="data-playlist-id=${playlist.playlist_id}"></button>
+                    <span class="ml-4 text-lg font-medium" th:text="${playlist.countVideosInPlaylist()}"></span>
+                </div>
+                <input type="hidden" id="videoId" name="videoId">
+                <input type="hidden" id="playlistId" name="playlistId">
+            </form>
+            <button onclick="closeModal()" class="bg-red-500 text-white px-4 py-2 rounded mt-4 block w-full">Close</button>
         </div>
     </div>
 </div>
