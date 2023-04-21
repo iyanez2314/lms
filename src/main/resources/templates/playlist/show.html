@@ -24,7 +24,7 @@
                 <input name="playlist-name-change"  th:value="${playlist.playListName}" class="text-2xl font-bold text-gray-800 border-2">
                 <div class="edit-button-container">
                     <button type="submit" class="bg-green-500 px-4 py-2 hover:bg-green-600  text-white font-bold rounded transition-colors duration-300">Confirm Edit</button>
-                    <button type="button" onclick="exitEdit()" class="px-4 py-2 bg-red-500 hover:bg-red-600  text-white font-bold rounded transition-colors duration-300">Cancel Edit</button>
+                    <button type="button" id="exit-edit-btn" class="px-4 py-2 bg-red-500 hover:bg-red-600  text-white font-bold rounded transition-colors duration-300">Cancel Edit</button>
                 </div>
             </form>
         </div>
@@ -58,59 +58,7 @@
     </div>
 
 
-<script>
-    const buttonElem = document.getElementById("edit-button");
-    const playlistnameElem = document.getElementById("playlist-name");
-    const editTitleForm = document.getElementById("edit-title-form")
-    const deletePlaylistButtonElem = document.querySelector(".delete-playlist-btn");
-
-
-    function toggleDeleteModal() {
-        // Grab the elements from the DOM
-        const playlistModal = document.getElementById('playlist-modal');
-        const playlistModalBackDrop = document.getElementById('modal-backdrop');
-
-        // We check to see if the elements on the page contain "hidden"
-        const playlistModalClassList = playlistModal.classList.contains("hidden");
-        const playlistModalBackDropClassList = playlistModalBackDrop.classList.contains("hidden");
-
-        if (playlistModalClassList && playlistModalBackDropClassList) {
-            // If both elements are hidden, show them.
-            playlistModal.classList.remove("hidden");
-            playlistModalBackDrop.classList.remove("hidden");
-        } else if (!playlistModalClassList && !playlistModalBackDropClassList) {
-            // If both elements are visible, hide them.
-            playlistModal.classList.add("hidden");
-            playlistModalBackDrop.classList.add("hidden");
-        }
-    }
-
-    document.querySelectorAll(".close-delete-toggle").forEach(button => {
-        button.addEventListener("click", toggleDeleteModal)
-    })
-
-    deletePlaylistButtonElem.addEventListener("click", toggleDeleteModal)
-
-
-    // Come back to his to make these functions better
-    function toggleForm(){
-        playlistnameElem.classList.toggle('hidden');
-        editTitleForm.classList.toggle('hidden');
-        buttonElem.classList.toggle('hidden');
-    }
-
-    function exitEdit(){
-        playlistnameElem.classList.toggle('hidden');
-        editTitleForm.classList.toggle('hidden');
-        buttonElem.classList.toggle('hidden');
-    }
-
-
-
-    buttonElem.addEventListener("click", function (event){
-        event.preventDefault();
-        toggleForm();
-    })
+<script src="/js/playlistShow.js">
 </script>
 </body>
 </html>
