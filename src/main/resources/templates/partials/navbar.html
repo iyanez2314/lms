@@ -8,10 +8,15 @@
 <body>
 <nav th:fragment="navbar">
   <div class="container mx-auto px-4 py-3 sm:py-6 flex flex-wrap justify-between items-center">
-    <div>
+    <div class="flex items-center justify-between w-full sm:w-auto">
       <a th:href="@{/}" class="font-bold text-lg sm:text-xl text-green-500">Developer LMS</a>
+      <button id="menu-toggle" class="sm:hidden block text-gray-700 hover:text-green-500 focus:outline-none focus:text-green-500 transition-all duration-200">
+        <svg class="h-6 w-6 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M4 6h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 5h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 5h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"/>
+        </svg>
+      </button>
     </div>
-    <div>
+    <div id="menu" class="sm:flex sm:w-auto ml-auto">
       <ul class="flex flex-wrap space-x-2 sm:space-x-4">
         <li th:if="${isAuthenticated}">
           <form th:action="@{/profile}" th:method="get">
@@ -45,6 +50,5 @@
     </div>
   </div>
 </nav>
-
 </body>
 </html>

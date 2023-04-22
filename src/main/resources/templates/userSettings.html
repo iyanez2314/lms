@@ -4,13 +4,10 @@
     <meta charset="UTF-8">
     <title>Profile Settings</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Space Mono', monospace;
-        }
-    </style>
+    <link href="/css/layout.css" rel="stylesheet">
     <meta th:name="_csrf" th:content="${_csrf.token}"/>
     <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body class="bg-gray-100">
 <nav th:replace="partials/navbar :: navbar(isAuthenticated=${#authentication.principal != 'anonymousUser'})"></nav>
@@ -83,5 +80,6 @@
 
 
 </script>
+<script src="/js/navbar.js"></script>
 </body>
 </html>

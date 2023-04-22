@@ -2,14 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Playlists</title>
-    <!-- Import Tailwind CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css">
-    <style>
-        body {
-            font-family: 'Space Mono', monospace;
-        }
-    </style>
+    <link href="/css/layout.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
 <nav th:replace="partials/navbar :: navbar(isAuthenticated=${#authentication.principal != 'anonymousUser'})"></nav>
@@ -56,9 +52,7 @@
             </div>
         </div>
     </div>
-
-
-<script src="/js/playlistShow.js">
-</script>
+<script src="/js/playlistShow.js"></script>
+<script src="/js/navbar.js"></script>
 </body>
 </html>
