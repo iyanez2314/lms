@@ -6,52 +6,51 @@
     <title>Playlists</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css">
     <link href="/css/layout.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body class="bg-gray-100">
 <nav th:replace="partials/navbar :: navbar(isAuthenticated=${#authentication.principal != 'anonymousUser'})"></nav>
-    <div class="max-w-4xl mx-auto mt-8">
-        <button type="button" class="delete-playlist-btn mb-3 px-4 py-2 bg-red-500 hover:bg-red-600  text-white font-bold rounded transition-colors duration-300">Delete Playlist</button>
-        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
-            <div class="flex justify-between">
-                <h1 th:text="${playlist.playListName}" id="playlist-name" class="text-2xl font-bold text-gray-800"></h1>
-                <button id="edit-button">edit</button>
+<div class="max-w-4xl mx-auto mt-8 px-4">
+    <button type="button" class="delete-playlist-btn mb-3 px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-bold rounded transition-colors duration-300">Delete Playlist</button>
+    <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+        <div class="flex justify-between">
+            <h1 th:text="${playlist.playListName}" id="playlist-name" class="text-2xl font-bold text-gray-800"></h1>
+            <button id="edit-button">edit</button>
+        </div>
+        <form th:method="POST" th:action="@{/playlist/} + ${playlist.playlist_id} + @{/edit}" id="edit-title-form" class="hidden flex justify-between">
+            <input name="playlist-name-change"  th:value="${playlist.playListName}" class="text-2xl font-bold text-gray-800 border-2">
+            <div class="edit-button-container">
+                <button type="submit" class="bg-green-500 px-4 py-2 hover:bg-green-600  text-white font-bold rounded transition-colors duration-300">Confirm Edit</button>
+                <button type="button" id="exit-edit-btn" class="px-4 py-2 bg-red-500 hover:bg-red-600  text-white font-bold rounded transition-colors duration-300">Cancel Edit</button>
             </div>
-            <form th:method="POST" th:action="@{/playlist/} + ${playlist.playlist_id} + @{/edit}" id="edit-title-form" class="hidden flex justify-between">
-                <input name="playlist-name-change"  th:value="${playlist.playListName}" class="text-2xl font-bold text-gray-800 border-2">
-                <div class="edit-button-container">
-                    <button type="submit" class="bg-green-500 px-4 py-2 hover:bg-green-600  text-white font-bold rounded transition-colors duration-300">Confirm Edit</button>
-                    <button type="button" id="exit-edit-btn" class="px-4 py-2 bg-red-500 hover:bg-red-600  text-white font-bold rounded transition-colors duration-300">Cancel Edit</button>
-                </div>
-            </form>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div th:each="video : ${videos}">
-                <div class="bg-white p-6 rounded-lg shadow-md h-60">
-                    <h2 th:text="${video.video.video_title}" class="text-lg font-medium text-gray-800 mb-4"></h2>
-                    <form th:action="@{/playlistview/} + ${playlist.playlist_id}" th:method="POST">
-                        <input type="hidden" th:value="${video.video.video_id}" name="videoId" />
-                        <button type="submit" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded transition-colors duration-300">Remove Video</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <!-- Hidden DELETE Modal -->
-        <div id="modal-backdrop" class="fixed inset-0 hidden">
-            <div class="fixed inset-0 bg-black opacity-50"></div>
-        </div>
-        <div id="playlist-modal" class="fixed inset-0 flex items-center justify-center hidden">
-            <div class="modal-content bg-white p-6 rounded-lg shadow-md w-full max-w-sm flex flex-col justify-between">
-                <h2 class="text-xl font-bold mb-4">Are you sure you want to delete?</h2>
-                <form id="playlist-form" th:action="@{/delete-playlist/} + ${playlist.playlist_id}" th:method="post">
-                    <div class="flex justify-evenly">
-                        <button type="submit" class="close-delete-toggle mb-3 px-4 py-2 bg-red-500 hover:bg-red-600  text-white font-bold rounded transition-colors duration-300">See Ya!</button>
-                        <button type="button" class="close-delete-toggle mb-3 px-4 py-2 bg-green-500 hover:bg-green-600  text-white font-bold rounded transition-colors duration-300">No</button>
-                    </div>
+        </form>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div th:each="video : ${videos}">
+            <div class="bg-white p-6 rounded-lg shadow-md h-60">
+                <h2 th:text="${video.video.video_title}" class="text-lg font-medium text-gray-800 mb-4"></h2>
+                <form th:action="@{/playlistview/} + ${playlist.playlist_id}" th:method="POST">
+                    <input type="hidden" th:value="${video.video.video_id}" name="videoId" />
+                    <button type="submit" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded transition-colors duration-300">Remove Video</button>
                 </form>
             </div>
         </div>
     </div>
+    <div id="modal-backdrop" class="fixed inset-0 hidden">
+        <div class="fixed inset-0 bg-black opacity-50"></div>
+    </div>
+    <div id="playlist-modal" class="fixed inset-0 flex items-center justify-center hidden">
+        <div class="modal-content bg-white p-6 rounded-lg shadow-md w-full max-w-sm flex flex-col justify-between">
+            <h2 class="text-xl font-bold mb-4">Are you sure you want to delete?</h2>
+            <form id="playlist-form" th:action="@{/delete-playlist/} + ${playlist.playlist_id}" th:method="post">
+                <div class="flex justify-evenly">
+                    <button type="submit" class="close-delete-toggle mb-3 px-4 py-2 bg-red-500 hover:bg-red-600  text-white font-bold rounded transition-colors duration-300">See Ya!</button>
+                    <button type="button" class="close-delete-toggle mb-3 px-4 py-2 bg-green-500 hover:bg-green-600  text-white font-bold rounded transition-colors duration-300">No</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <script src="/js/playlistShow.js"></script>
 <script src="/js/navbar.js"></script>
 </body>
