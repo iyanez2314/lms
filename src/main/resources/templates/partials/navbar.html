@@ -16,7 +16,7 @@
         </svg>
       </button>
     </div>
-    <div id="menu" class="sm:flex sm:w-auto ml-auto">
+    <div id="menu" class="sm:flex sm:w-auto ml-auto hidden">
       <ul class="flex flex-wrap space-x-2 sm:space-x-4">
         <li th:if="${isAuthenticated}">
           <form th:action="@{/profile}" th:method="get">
