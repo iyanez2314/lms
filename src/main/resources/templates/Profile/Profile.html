@@ -42,7 +42,7 @@
                 <div class="user-playlist-container-header mb-4">
                     <h1 class="text-xl font-bold">All playlist's <span th:text="${plalistcount}" class="bg-blue-500 text-white px-2 py-1 rounded-full text-sm">0</span></h1>
                 </div>
-                <div th:each="playlist : ${playlists}" class="mb-4">
+                <div th:if="${!playlists.isEmpty()}" th:each="playlist : ${playlists}" class="mb-4">
                     <div class="flex items-center">
                         <h1 th:text="${playlist.playListName}" class="font-semibold mr-2"></h1>
                         <span class="bg-blue-500 text-white px-2 py-1 rounded-full text-sm" th:text="${playlist.countVideosInPlaylist()}"></span>
@@ -50,6 +50,9 @@
                     <form th:action="@{/playlistview/} + ${playlist.playlist_id}" th:method="GET">
                         <button type="submit" class="bg-yellow-500 text-white px-4 py-2 rounded mt-2">View Videos</button>
                     </form>
+                </div>
+                <div th:if="${playlists.isEmpty()}">
+                    <p>No playlist yet! 😳</p>
                 </div>
             </div>
         </section>
