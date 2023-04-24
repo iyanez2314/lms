@@ -48,7 +48,7 @@
                         <span class="bg-blue-500 text-white px-2 py-1 rounded-full text-sm" th:text="${playlist.countVideosInPlaylist()}"></span>
                     </div>
                     <form th:action="@{/playlistview/} + ${playlist.playlist_id}" th:method="GET">
-                        <button type="submit" class="bg-yellow-500 text-white px-4 py-2 rounded mt-2">View Videos</button>
+                        <button type="submit" class=" transition-all duration-200 hover:bg-yellow-600 bg-yellow-500 text-white px-4 py-2 rounded mt-2">View Videos</button>
                     </form>
                 </div>
                 <div th:if="${playlists.isEmpty()}">
@@ -97,7 +97,7 @@
                             <div class="mt-auto">
                                 <a th:href="${video.video_url}" th:target="_blank" class="text-gray-700 mb-4">View Video</a>
                                 <br>
-                                <button type="submit" class="add-to-playlist-btn bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded" th:attr="data-video-id=${video.video_id}, data-video-title=${video.video_title}, data-video-url=${video.video_url}, data-video-thumbNail=${video.thumbnail_url}">
+                                <button type="submit" class="add-to-playlist-btn transition-all duration-200 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded" th:attr="data-video-id=${video.video_id}, data-video-title=${video.video_title}, data-video-url=${video.video_url}, data-video-thumbNail=${video.thumbnail_url}">
                                     Add to playlist
                                 </button>
                             </div>
