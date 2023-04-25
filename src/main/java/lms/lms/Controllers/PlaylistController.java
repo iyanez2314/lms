@@ -94,7 +94,6 @@ public class PlaylistController {
                    playlistVideoDao.delete(playlistVideo);
                }
            }
-
            playlistDao.delete(playlist);
            return "redirect:/profile";
        } catch (NoSuchElementException e){
@@ -102,6 +101,5 @@ public class PlaylistController {
            return "ErrorViews/error";
        }
     }
-
 
 }
