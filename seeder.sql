@@ -3,8 +3,6 @@ INSERT INTO languages (language_name)
 VALUES ('Python'),
        ('JavaScript'),
        ('Java'),
-       ('C++'),
-       ('C#'),
        ('Ruby'),
        ('PHP'),
        ('Swift'),
