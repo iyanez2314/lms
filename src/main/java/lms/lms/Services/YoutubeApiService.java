@@ -152,7 +152,7 @@ public class YoutubeApiService {
         }
 
         public static class Thumbnails {
-            @JsonProperty("default")
+            @JsonProperty("high")
             private Thumbnail defaultThumbnail;
 
             public Thumbnail getDefaultThumbnail() {

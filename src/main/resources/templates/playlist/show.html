@@ -7,6 +7,14 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css">
     <link href="/css/layout.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .thumbnail {
+            width: 100%;
+            height: 200px; /* Set a fixed height */
+            object-fit: cover; /* Ensure the image covers the available space */
+            border-radius: 0.5rem;
+        }
+    </style>
 </head>
 <body class="bg-gray-100">
 <nav th:replace="partials/navbar :: navbar(isAuthenticated=${#authentication.principal != 'anonymousUser'})"></nav>
@@ -28,16 +36,28 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div th:each="video : ${videos}" class="flex">
             <div class="bg-white p-6 rounded-lg shadow-md flex flex-col h-full">
+                <!-- Add an image container -->
+                <div class="mb-4">
+                    <img th:src="${video.video.thumbnail_url}" alt="Video thumbnail" class="thumbnail">
+                </div>
                 <div class="flex-grow">
                     <h2 th:text="${video.video.video_title}" class="text-lg font-medium text-gray-800 mb-4"></h2>
                 </div>
                 <form th:action="@{/playlistview/} + ${playlist.playlist_id}" th:method="POST" class="mt-auto">
                     <input type="hidden" th:value="${video.video.video_id}" name="videoId" />
-                    <button type="submit" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-bold rounded transition-colors duration-300">Remove Video</button>
+                    <div class="flex flex-row space-x-4 items-center justify-between">
+                        <div>
+                            <a th:href="${video.video.video_url}" th:target="_blank" class="text-gray-700">View</a>
+                        </div>
+                        <div>
+                            <button type="submit" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-bold rounded transition-colors duration-300">Remove</button>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
+
     <div id="modal-backdrop" class="fixed inset-0 hidden">
         <div class="fixed inset-0 bg-black opacity-50"></div>
     </div>
