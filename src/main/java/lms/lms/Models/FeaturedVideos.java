@@ -4,6 +4,7 @@ package lms.lms.Models;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "featured_videos")
 public class FeaturedVideos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
